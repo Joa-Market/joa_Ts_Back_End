@@ -1,0 +1,31 @@
+{
+  "name": "joa_ts_back_end",
+  "version": "1.0.0",
+  "description": "백엔드 타입스크립트로 다시시작",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon — exec ts-node app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joa-Market/joa_Ts_Back_End.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joa-Market/joa_Ts_Back_End/issues"
+  },
+  "homepage": "https://github.com/Joa-Market/joa_Ts_Back_End#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "passport": "^0.5.0",
+    "path": "^0.12.7"
+  }
+}
