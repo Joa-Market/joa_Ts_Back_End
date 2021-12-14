@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./@types"], 
     "lib": ["esnext"],
     "target": "esnext",
     "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
     "outDir": "./build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
