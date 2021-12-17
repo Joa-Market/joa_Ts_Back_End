@@ -9,11 +9,12 @@ const postsalepost = async (req:express.Request, res:express.Response) => {
     const user = res.locals.user;
     try {
         const post = salepost.create({
+            userid: user.id,
             title: title,
+            contents: contents,
+            productImg: productImg,
             productName: productName,
             price: price,
-            contents: contents,
-            userid: user.id,
         })
         logger.info("POST /adress");
         return res.status(200).send({ result: "success", msg: "글이 성공적으로 작성되었습니다." });
@@ -31,16 +32,14 @@ const getsalepost = async (req:express.Request, res:express.Response) => {
         if (page > 1) {
           offset = 12 * (page - 1);
         }
-        const { count, posts } = await salepost.findAndCountAll({
+        const post = await salepost.findAndCountAll({
             include: [
               {
-                model: user,
-                as: "host",
+                model: Users,
                 attributes: { exclude: ["password", "salt"]},
               },
               {
-                  model : address,
-                  attributes: "address_name"
+                  model : address
               }
             ],
             // where: { private: false, end: false },
@@ -49,7 +48,7 @@ const getsalepost = async (req:express.Request, res:express.Response) => {
             limit: 12,
         })
         logger.info("GET /adress");
-        return res.status(200).send({ result: "success", msg: "판매글 조회성공", posts : posts  });
+        return res.status(200).send({ result: "success", msg: "판매글 조회성공", post : post.rows , count : post.count  });
     } catch (error) {
         logger.error("GET /adress"+error);
         return res.status(200).send({ result: "fail", msg: "작성실패" });
@@ -60,16 +59,14 @@ const onesalepost = async (req:express.Request, res:express.Response)=>{
     const user = res.locals.user;
     try {
         const posts = await salepost.findOne({
-            where:{id: id },
+            where:{ id: id },
             include: [
               {
-                model: user,
-                as: "host",
+                model: Users,
                 attributes: { exclude: ["password", "salt"]},
               },
               {
-                  model : address,
-                  attributes: "address_name"
+                  model : address
               }
             ]
         })

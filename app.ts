@@ -5,12 +5,12 @@ import passprot from "passport";
 import * as path from "path";
 import cookieParser from "cookie-parser"
 import session from "express-session";
-import * as morgan from "morgan";
+// import * as morgan from "morgan";
 import cors from "cors";
-import * as redis from 'redis';
+// import * as redis from 'redis';
 // const redisClinet = require("./config/redis");
 // const redisStore = require("connect-redis")(session);
-import * as Router from "./router/index";
+import Router from "./router/index";
 const app = express();
 import passportConfig from './passport';
 
@@ -48,21 +48,35 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(cookieParser(process.env.SECRET_KEY));
-passportConfig();
+
 app.use(passprot.initialize());
 app.use(passprot.session());
+passportConfig();
 
-app.use("/api",[Router.router]);
+app.use("/api",[Router]);
 
-app.use((req, res, next)=>{
+app.use((req:express.Request, res:express.Response, next:express.NextFunction)=>{
     const error =  new Error(`${req.method} ${req.url} 라우터 없음..!`);
     next(error)
 })
-app.use((err:any, req:express.Request, res: express.Response, next:express.NextFunction) => {
+app.use((err:Error, req:express.Request, res: express.Response, next:express.NextFunction) => {
     res.locals.message = err.message;
     res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-    res.status(err.static || 500);
-    res.send("error");
+    res.send(err);
 });
 
-module.exports = {app , sessionMiddleware};
+import sequelzie from "./models"
+
+export = { app , sessionMiddleware }
+// app.listen(3000,async () => {
+//     console.log(`Server Listening on 80`);
+
+//     // //sequelize-db 연결 테스트
+//      await sequelzie.authenticate()
+//      .then(async () => {
+//          console.log("연결 되었습니다.");
+//      })
+//      .catch((e) => {
+//          console.log('TT : ', e);
+//      })
+// })

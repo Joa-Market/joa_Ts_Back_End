@@ -1,19 +1,18 @@
 import passport from "passport";
 import local from "./local";
 import kakao from "./forkakao";
-const {
-  users,
-  sequelize
-} = require("../models");
+import { Users } from "../models/user";
 
-export = () => {
-  passport.serializeUser((User:{userid:Number}, done) => {
-    done(null, user?.userid);
+
+
+const config = () => {
+  passport.serializeUser((user:any, done) => {
+    done(null, user?.id);
   });
 
-  passport.deserializeUser((id:Number, done) => {
-    users.findOne({
-      where: { userid : id }
+  passport.deserializeUser((id:number, done) => {
+    Users.findOne({
+      where: { id: id }
     })
       .then((user) => done(null, user))
       .catch((err) => done(err));
@@ -21,3 +20,4 @@ export = () => {
   local();
   kakao();
 };
+export default config

@@ -4,9 +4,9 @@ import { salepost } from "../models/salepost"
 import * as express from "express"
 import * as crypto from "crypto";
 import { logger } from "../config/logger"; //로그
-async function emailCheck(email:String) {
+async function emailCheck(email:string) {
     try {
-        const isemail = await user.findOne({ where: { email: email } });
+        const isemail = await Users.findOne({ where: { email: email } });
         if (isemail) {
             return true;
         } else {
@@ -18,9 +18,9 @@ async function emailCheck(email:String) {
     }
 }
 
-async function nickNameCheck(nickname:String) {
+async function nickNameCheck(nickname:string) {
     try {
-        const isemail = await user.findOne({ where: { nickname: nickname } });
+        const isemail = await Users.findOne({ where: { nickName: nickname } });
         if (isemail) {
             return true;
         } else {
@@ -73,10 +73,10 @@ const signup = async (req:express.Request, res:express.Response) => {
                 .createHash("sha512")
                 .update(pw + salt)
                 .digest("hex");
-            const users = user.create({
-                nickname: nickName,
+            const users = Users.create({
+                nickName: nickName,
                 email: email,
-                pw: hashpw,
+                password: hashpw,
                 salt: salt
             })
             logger.info("POST /signup");

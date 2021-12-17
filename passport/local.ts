@@ -1,10 +1,9 @@
 import passport from "passport";
 import crypto from "crypto";
 import LocalStrategy from "passport-local";
-import sequelize from "../models/index"
 import { Users } from "../models/user"
-import { address } from "../models/address"
-export = () => {
+
+const config = () => {
   passport.use(
     new LocalStrategy.Strategy(
       {
@@ -13,14 +12,7 @@ export = () => {
       },
       async (email:string, password:string, done) => {
         try {
-          const query = "select * from users where email = :email";
-          const isuser = await sequelize.query(query, {
-            replacements: {
-              email: email,
-            },
-            type: sequelize.QueryTypes.SELECT,
-          });
-          const users = isuser[0];
+          const users = await Users.findOne({where:{email : email}});
           if (users) {
             const salt = users.salt;
             let inpw = crypto.createHash("sha512").update(password + salt).digest("hex");
@@ -40,3 +32,4 @@ export = () => {
     )
   );
 };
+export default config;

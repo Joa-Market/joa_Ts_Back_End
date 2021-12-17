@@ -1,5 +1,5 @@
 import * as express from "express";
-import * as passport from "passport";
+import passport from "passport";
 import * as passportlogin from "../controller/passprotlogin"
 import passmid from "../middlewares/passportmid";
 import usercontroller from "../controller/user";
@@ -26,12 +26,12 @@ router.get(
   }),
   (req, res) => {
     try {
-      const user = req.user;
+      const user:any = req.user;
       const token = jwt.sign(
         {
           id: user?.id
         },
-        process.env.SECRET_KEY
+        process.env.SECRET_KEY||"test"
       );
       res.status(200).send({
         message: "로그인에 성공하였습니다.",
@@ -49,4 +49,4 @@ router.get(
 
 router.post("/signup", passmid.isNotLoggedIn, usercontroller.signup)
 
-export {router};
+export default router;

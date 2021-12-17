@@ -16,22 +16,21 @@ const create = async (req:express.Request, res:express.Response, next:express.Ne
         console.error(loginError);
         return next(loginError);
       }
-      const secre:jwt.Secret = process.env.SECRET_KEY?process.env.SECRET_KEY:"ch"
+      const secre:jwt.Secret = process.env.SECRET_KEY?process.env.SECRET_KEY:"test"
       const token = jwt.sign(
         {
-          id: user["userid"],
+          id: user.id,
         },
         secre
       );
-      const data = { user: user };
       return res.status(200).send({
         result: "success",
         msg: "로그인 완료.",
         token: token,
-        data: data,
+        user: user,
       });
     });
-  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+  })(req, res, next);
 };
 
 

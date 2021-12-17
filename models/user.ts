@@ -20,6 +20,7 @@ export class Users extends Model<UsersAttributes>{
   public nickName!: string;
   public salt!: string;
   public image!: string;
+  public password!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   
@@ -64,12 +65,12 @@ Users.init(
   }
 )
 
-Users.hasOne(address, {
-  as: "address",
-  foreignKey: "userid",
-  sourceKey: "id",
-});
-Users.hasMany(salepost, {
-  foreignKey: "userid",
-  sourceKey: "id",
-});
+// Users.hasOne(address, {
+//   as: "address",
+//   foreignKey: "userid",
+//   sourceKey: "id",
+// });
+// Users.hasMany(salepost, {
+//   foreignKey: "userid",
+//   sourceKey: "id",
+// });
