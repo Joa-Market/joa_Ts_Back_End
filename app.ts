@@ -5,13 +5,14 @@ import passprot from "passport";
 import * as path from "path";
 import cookieParser from "cookie-parser"
 import session from "express-session";
-// import * as morgan from "morgan";
+import morgan from "morgan";
 import cors from "cors";
-// import * as redis from 'redis';
+// import * as redis from 'redis'; //레디스 
 // const redisClinet = require("./config/redis");
 // const redisStore = require("connect-redis")(session);
 import Router from "./router/index";
 const app = express();
+app.use(express.json())
 import passportConfig from './passport';
 
 const sessionMiddleware = session({
@@ -52,6 +53,7 @@ app.use(cookieParser(process.env.SECRET_KEY));
 app.use(passprot.initialize());
 app.use(passprot.session());
 passportConfig();
+app.use(morgan("common"));
 
 app.use("/api",[Router]);
 
@@ -62,7 +64,7 @@ app.use((req:express.Request, res:express.Response, next:express.NextFunction)=>
 app.use((err:Error, req:express.Request, res: express.Response, next:express.NextFunction) => {
     res.locals.message = err.message;
     res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-    res.send(err);
+    res.send(err.message);
 });
 
 import sequelzie from "./models"
