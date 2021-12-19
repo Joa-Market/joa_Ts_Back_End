@@ -4,6 +4,7 @@ import * as passportlogin from "../controller/passprotlogin"
 import passmid from "../middlewares/passportmid";
 import usercontroller from "../controller/user";
 import * as jwt from "jsonwebtoken";
+import singupValidation from "../middlewares/vali"
 
 const router = express.Router();
 
@@ -47,6 +48,6 @@ router.get(
   }
 );
 
-router.post("/signup", passmid.isNotLoggedIn, usercontroller.signup)
+router.post("/signup", passmid.isNotLoggedIn, singupValidation.singupValidation,usercontroller.signup)
 
 export default router;
