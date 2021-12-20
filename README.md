@@ -1,3 +1,6 @@
 # joa_Ts_Back_End
-백엔드 타입스크립트로 다시시작
-테스트 합니다.!
+# Type Script 
+## 현재
+* Passport local 로그인, kakao 로그인
+* 회원 가입
+* 판매 포스팅 가능
